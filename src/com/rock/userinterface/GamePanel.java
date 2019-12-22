@@ -2,6 +2,7 @@ package com.rock.userinterface;
 import com.rock.effect.Animation;
 import com.rock.effect.CacheDataLoader;
 import com.rock.effect.FrameImage;
+import com.rock.gameobjects.Megaman;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -21,20 +22,25 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private Thread gameThread;
 
     private boolean isRunning = true;
+
+    private BufferedImage bufferedImage ;
+    private Graphics2D bufGraphics2D;
     
+    Megaman megaman = new Megaman(300,300,100,100, 0.1f);
 
     
-    FrameImage frame1, frame2 , frame3;
-    Animation animation ; 
+//    FrameImage frame1, frame2 , frame3;
+//    Animation animation ; 
 
     public GamePanel(){
 
-        inputManager = new InputManager();
+        inputManager = new InputManager(this);
+        bufferedImage = new BufferedImage(GameFrame.SCREEN_WITH, GameFrame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 //        try {
 ////            BufferedImage image = ImageIO.read(new File("data/megasprite.png"));
 ////            BufferedImage image1 = image.getSubimage(800, 177, 81, 100);
-        frame1=  CacheDataLoader.getInstance().getFrameImage("idle1" );
-        animation = CacheDataLoader.getInstance().getAnimation("idleshoot");
+//        frame1=  CacheDataLoader.getInstance().getFrameImage("idle1" );
+//        animation = CacheDataLoader.getInstance().getAnimation("run");
 ////            BufferedImage image2 = image.getSubimage(881, 177, 90, 100);
 ////            frame2= new FrameImage("frame2", image2);
 ////            
@@ -65,21 +71,37 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     //Vẽ giao diện
     public void paint(Graphics g){
 
-        g.setColor(Color.white);
-        g.fillRect(0, 0, GameFrame.SCREEN_WITH, GameFrame.SCREEN_HEIGHT);
+        g.drawImage(bufferedImage, 0,0 , this);
         
-//        animation.Update(System.nanoTime());
-//        
-        Graphics2D g2  = (Graphics2D) g ; 
-//        animation.draw(g2, 130, 200);
-//        frame1.draw(g2, 100, 150);
-        animation.draw(g2, 100, 150);
+    }
+    public void UpdateGame(){
+        megaman.update();
+    }
+    
+    public void RenderGame(){
+        if (bufferedImage == null){
+             bufferedImage = new BufferedImage (GameFrame.SCREEN_WITH, GameFrame.SCREEN_HEIGHT,BufferedImage.TYPE_INT_ARGB);
+             
+        }
+        
+        if ( bufferedImage!= null){
+            bufGraphics2D =(Graphics2D) bufferedImage.getGraphics();
+        
+        }
+        if (bufGraphics2D != null ){
+             
+            bufGraphics2D.setColor(Color.white);
+            bufGraphics2D.fillRect(0, 0, GameFrame.SCREEN_WITH, GameFrame.SCREEN_HEIGHT);
+            
+//            bufGraphics2D.setColor(Color.red);
+//            bufGraphics2D.fillRect(40, 50, 100, 100);
+            megaman.draw(bufGraphics2D);
 
-
+        }
     }
 
-     @Override
-    public void run() {
+    @Override
+    public void run () {
 
         long previousTime = System.nanoTime();
         long currentTime;
@@ -89,9 +111,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
 
         while(isRunning){
             
-            
+            UpdateGame();
+            RenderGame();
             repaint();
             currentTime = System.nanoTime();
+            
+            
+            
             sleepTime = period - (currentTime - previousTime);
             try{
 
