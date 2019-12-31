@@ -2,7 +2,9 @@ package com.rock.userinterface;
 import com.rock.effect.Animation;
 import com.rock.effect.CacheDataLoader;
 import com.rock.effect.FrameImage;
+import com.rock.gameobjects.GameWorld;
 import com.rock.gameobjects.Megaman;
+import com.rock.gameobjects.PhysicalMap;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -26,16 +28,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     private BufferedImage bufferedImage ;
     private Graphics2D bufGraphics2D;
     
-    Megaman megaman = new Megaman(300,300,100,100, 0.1f);
-
+    GameWorld gameWorld;
     
 //    FrameImage frame1, frame2 , frame3;
 //    Animation animation ; 
 
     public GamePanel(){
-
-        inputManager = new InputManager(this);
+        gameWorld = new GameWorld();
+        inputManager = new InputManager(gameWorld);
         bufferedImage = new BufferedImage(GameFrame.SCREEN_WITH, GameFrame.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        
 //        try {
 ////            BufferedImage image = ImageIO.read(new File("data/megasprite.png"));
 ////            BufferedImage image1 = image.getSubimage(800, 177, 81, 100);
@@ -75,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
         
     }
     public void UpdateGame(){
-        megaman.update();
+       gameWorld.Update();
     }
     
     public void RenderGame(){
@@ -95,7 +97,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
             
 //            bufGraphics2D.setColor(Color.red);
 //            bufGraphics2D.fillRect(40, 50, 100, 100);
-            megaman.draw(bufGraphics2D);
+            gameWorld.Render(bufGraphics2D);
 
         }
     }
@@ -144,6 +146,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener{
     public void keyReleased(KeyEvent e) {
         inputManager.processKeyReleased(e.getKeyCode());// Xử lý thả phím
     }
+
+
 
 
 

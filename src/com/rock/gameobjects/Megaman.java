@@ -7,6 +7,7 @@ package com.rock.gameobjects;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 /**
  *
@@ -28,31 +29,48 @@ public class Megaman {
     public static int DIR_RIGHT ;
     private  int derection;
     
+    GameWorld gameWorld;
+    
 
-    public Megaman(float posX, float posY, float width, float height, float mass) {
+    public Megaman(float posX, float posY, float width, float height, float mass, GameWorld gameWorld) {
         this.posX = posX;
         this.posY = posY;
         this.width = width;
         this.height = height;
         this.mass = mass;
+        this.gameWorld = gameWorld;
+    }
+    public Rectangle getBoundForCollisiowWithMap(){
+        Rectangle bound = new Rectangle();
+        bound.x = (int) (getPosX() -(getWidth()/2));
+        bound.y = (int) (getPosY()-(getWidth()/2));
+        bound.width = (int) getWidth();
+        bound.height = (int) getHeight();
+        return  bound;
     }
     public void update (){
-        setPosX(getPosX()+ speedX);
-        if ( getPosY() >=400){
-            setPosY(400);
+        setPosX(getPosX()+ speedX); 
+        
+        Rectangle futureRect = getBoundForCollisiowWithMap();
+        futureRect.y += getSpeedY(); /// hinh chữ nhật sẽ va chạm
+        
+        Rectangle rectLand = gameWorld.physicalMap.haveCollisionWithLand(futureRect); // mat dat se va cham
+        if (rectLand != null){ // neu != nul thi do la vat the
+            setPosY(rectLand.y - getHeight()/2  );
         }else{
             setPosY(getPosY() + speedY);
             setSpeedY(getSpeedY() + mass);
         }
-        
+             
         
        
     }
     
     public void draw (Graphics2D g2){
-        g2.setColor( Color.red);
-        g2.fillRect((int) posX, (int) posY  , (int) width, (int) height);
         
+        g2.setColor( Color.red);
+        g2.fillRect((int) (getPosX() - getWidth()/2), (int) (getPosY() - getHeight()/2)  , (int) width, (int) height);
+
     }
     
     public float getPosX() {
@@ -119,6 +137,6 @@ public class Megaman {
         this.derection = derection;
     }
     
-    
+
     
 }

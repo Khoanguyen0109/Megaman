@@ -68,9 +68,9 @@ public class CacheDataLoader {
 
     }
     
-//    public int[][] getPhysicalMap(){
-//        return instance.phys_map;
-//    }
+    public int[][] getPhysicalMap(){
+        return instance.phys_map;
+    }
 //    
 //    public int[][] getBackgroundMap(){
 //        return instance.background_map;
@@ -80,7 +80,7 @@ public class CacheDataLoader {
         
         LoadFrame();
         LoadAnimation();
-//        LoadPhysMap();
+        LoadPhysMap();
 //        LoadBackgroundMap();
 //        LoadSounds();
         
@@ -165,39 +165,39 @@ public class CacheDataLoader {
 //        
 //    }
     
-//    public void LoadPhysMap() throws IOException{
-//        
-//        FileReader fr = new FileReader(physmapfile);
-//        BufferedReader br = new BufferedReader(fr);
-//        
-//        String line = null;
-//        
-//        line = br.readLine();
-//        int numberOfRows = Integer.parseInt(line);
-//        line = br.readLine();
-//        int numberOfColumns = Integer.parseInt(line);
-//            
-//        
-//        instance.phys_map = new int[numberOfRows][numberOfColumns];
-//        
-//        for(int i = 0;i < numberOfRows;i++){
-//            line = br.readLine();
-//            String [] str = line.split(" ");
-//            for(int j = 0;j<numberOfColumns;j++)
-//                instance.phys_map[i][j] = Integer.parseInt(str[j]);
-//        }
-//        
-//        for(int i = 0;i < numberOfRows;i++){
-//            
-//            for(int j = 0;j<numberOfColumns;j++)
-//                System.out.print(" "+instance.phys_map[i][j]);
-//            
-//            System.out.println();
-//        }
-//        
-//        br.close();
-//        
-//    }
+    public void LoadPhysMap() throws IOException{
+        
+        FileReader fr = new FileReader(physmapfile);
+        BufferedReader br = new BufferedReader(fr);
+        
+        String line = null;
+        
+        line = br.readLine();
+        int numberOfRows = Integer.parseInt(line);
+        line = br.readLine();
+        int numberOfColumns = Integer.parseInt(line);
+            
+        
+        instance.phys_map = new int[numberOfRows][numberOfColumns];
+        
+        for(int i = 0;i < numberOfRows;i++){
+            line = br.readLine();
+            String [] str = line.split(" ");
+            for(int j = 0;j<numberOfColumns;j++)
+                instance.phys_map[i][j] = Integer.parseInt(str[j]);
+        }
+        
+        for(int i = 0;i < numberOfRows;i++){
+            
+            for(int j = 0;j<numberOfColumns;j++)
+                System.out.print(" "+instance.phys_map[i][j]);
+             
+            System.out.println();
+        }
+        
+        br.close();
+        
+    }
     public void LoadAnimation() throws IOException {
         
         animations = new Hashtable<String, Animation>();
