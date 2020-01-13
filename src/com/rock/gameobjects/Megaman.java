@@ -40,27 +40,27 @@ public class Megaman {
         this.mass = mass;
         this.gameWorld = gameWorld;
     }
-    public Rectangle getBoundForCollisiowWithMap(){
-        Rectangle bound = new Rectangle();
-        bound.x = (int) (getPosX() -(getWidth()/2));
-        bound.y = (int) (getPosY()-(getWidth()/2));
-        bound.width = (int) getWidth();
-        bound.height = (int) getHeight();
-        return  bound;
-    }
+//    public Rectangle getBoundForCollisiowWithMap(){
+//        Rectangle bound = new Rectangle();
+//        bound.x = (int) (getPosX() -(getWidth()/2));
+//        bound.y = (int) (getPosY()-(getWidth()/2));
+//        bound.width = (int) getWidth();
+//        bound.height = (int) getHeight();
+//        return  bound;
+//    }
     public void update (){
-        setPosX(getPosX()+ speedX); 
-        
-        Rectangle futureRect = getBoundForCollisiowWithMap();
-        futureRect.y += getSpeedY(); /// hinh chữ nhật sẽ va chạm
-        
-        Rectangle rectLand = gameWorld.physicalMap.haveCollisionWithLand(futureRect); // mat dat se va cham
-        if (rectLand != null){ // neu != nul thi do la vat the
-            setPosY(rectLand.y - getHeight()/2  );
-        }else{
-            setPosY(getPosY() + speedY);
-            setSpeedY(getSpeedY() + mass);
-        }
+//        setPosX(getPosX()+ speedX); 
+//        
+//        Rectangle futureRect = getBoundForCollisiowWithMap();
+//        futureRect.y += getSpeedY(); /// hinh chữ nhật sẽ va chạm
+//        
+//        Rectangle rectLand = gameWorld.physicalMap.haveCollisionWithLand(futureRect); // mat dat se va cham
+//        if (rectLand != null){ // neu != nul thi do la vat the
+//            setPosY(rectLand.y - getHeight()/2  );
+//        }else{
+//            setPosY(getPosY() + speedY);
+//            setSpeedY(getSpeedY() + mass);
+//        }
              
         
        
